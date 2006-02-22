@@ -1,0 +1,9 @@
+Revision history for Perl extension Catalyst::Model::Xapian.
+
+0.02  Wed Feb 22 16:30:00 2006
+	- stem function has changed in later versions.
+	- Added sample indexer script
+	- strip pod in __DATA__
+	
+0.01  Fri Feb 17 16:30:00 2006
+        - first release
