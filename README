@@ -46,9 +46,16 @@ METHODS
         passing page size as a final argument to the function. returns a
         Data::Page object and an arrayref to the extracted document data.
 
+    prepare_enq <enq>
+        Prepare enquire object before getting mset. Allows you to modify
+        ordering and such in your subclass.
+
     extract_data <item> <query>
         Extract data from a Search::Xapian::Document. Defaults to using
         Storable::thaw.
+
+    qp  Query Parser. The Search::Xapian::QueryParser object used to parse
+        the query.
 
 AUTHOR
     Marcus Ramberg <mramberg@cpan.org>

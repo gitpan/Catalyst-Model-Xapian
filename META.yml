@@ -1,10 +1,12 @@
 ---
 name: Catalyst-Model-Xapian
-version: 0.02
+version: 0.03
 author:
   - 'Marcus Ramberg <mramberg@cpan.org>'
 abstract: Catalyst model for Search::Xapian.
 license: perl
+resources:
+  license: http://dev.perl.org/licenses/
 requires:
   Catalyst: 5.30
   Data::Page: 0
@@ -16,5 +18,10 @@ provides:
     file: lib/Catalyst/Helper/Model/Xapian.pm
   Catalyst::Model::Xapian:
     file: lib/Catalyst/Model/Xapian.pm
-    version: 0.02
-generated_by: Module::Build version 0.2607
+    version: 0.03
+  Catalyst::Model::Xapian::Result:
+    file: lib/Catalyst/Model/Xapian/Result.pm
+generated_by: Module::Build version 0.2808
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.2.html
+  version: 1.2

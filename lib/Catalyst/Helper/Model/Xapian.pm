@@ -73,7 +73,7 @@ use base 'Catalyst::Model::Xapian';
 
 [% IF index %]
 __PACKAGE__->config(
-    index           => [% index %]
+    index           => '[% index %]'
 );
 [% END %]
 

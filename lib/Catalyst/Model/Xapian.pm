@@ -1,20 +1,23 @@
 package Catalyst::Model::Xapian;
 
-use base qw/Catalyst::Base/;
+use base qw/Catalyst::Model/;
+use Moose;
 
 use strict;
 
+use Catalyst::Model::Xapian::Result;
 use Encode qw/from_to/;
 use Search::Xapian qw/:all/;
-use Search::Xapian::MSet::Tied;
 use Storable;
 use NEXT;
-use Data::Page;
+use Time::HiRes qw/gettimeofday tv_interval/;
 
-our $VERSION='0.02';
+our $VERSION='0.03';
 
 __PACKAGE__->mk_accessors('db');
 __PACKAGE__->mk_accessors('qp');
+has 'db' => (isa => 'Search::Xapian::Database', is => 'rw');
+has 'qp' => (isa => 'Search::Xapian::QueryParser', is => 'rw');
 
 
 =head1 NAME
@@ -94,8 +97,10 @@ sub new {
 	$self->db(Search::Xapian::Database->new($config{db}));
 	$self->qp(Search::Xapian::QueryParser->new($self->db));
     
-	my $stemmer=Search::Xapian::Stem->new($config{language});
-	$self->qp->set_stemmer($stemmer);
+    if ( defined($config{language}) ) {
+	    my $stemmer=Search::Xapian::Stem->new($config{language});
+	    $self->qp->set_stemmer($stemmer);
+    }
 	$self->qp->set_default_op(OP_AND);
 	
     $self->qp->add_boolean_prefix("site", "H");
@@ -119,32 +124,38 @@ object and an arrayref to the extracted document data.
 
 =cut
 
+
 sub search {
     my ( $class,$q, $page,$page_size) = @_;
+    my $t=[gettimeofday];
     $page       ||= 1;
     $page_size  ||=  $class->config->{page_size};
     $class->db->reopen();
-    from_to($q,'utf-8','iso-8859-1') if $class->config->{utf8_query};
-    my $query=$class->qp->parse_query( $q );
+    my $query=$class->qp->parse_query( $q, 23 );
     my $enq       = $class->db->enquire ( $query );
+    $class->prepare_enq($enq);
     if( $class->config->{order_by_date} ) {
         $enq->set_docid_order(ENQ_DESCENDING);
         $enq->set_weighting_scheme(Search::Xapian::BoolWeight->new());
     }
-    my @matches_tied; 
     my $mset      = $enq->get_mset( ($page-1)*$page_size,
                                      $page_size );
-    tie( @matches_tied, 'Search::Xapian::MSet::Tied', $mset );
-    my @matches;
-    foreach my $match ( @matches_tied ) {
-        push @matches,$class->extract_data( $match->get_document, $query );
-    }
-    my $pager=Data::Page->new();
-    $pager->total_entries( $mset->get_matches_estimated );
-    $pager->entries_per_page( $class->config->{page_size} );
-    $pager->current_page( $page );
-    return ( $pager,\@matches );
+    my ($time)=tv_interval($t) =~ m/^(\d+\.\d{0,2})/;
+    $time =~ s/\./\,/;
+    from_to($q,'utf-8','iso-8859-1') if $class->config->{utf8_query};
+    #$q=utf8::decode($q) if $class->{config}->{utf8_query};
+    return Catalyst::Model::Xapian::Result->new({ mset=>$mset,
+        search=>$class,query=>$q,query_obj=>$query,querytime=>$time,page=>$page,page_size=>$page_size });
 }
+ 
+=item prepare_enq <enq>
+
+Prepare enquire object before getting mset. Allows you to modify 
+ordering and such in your subclass.
+
+=cut  
+ 
+sub prepare_enq {}
  
 =item extract_data <item> <query>
 
@@ -160,6 +171,10 @@ sub extract_data {
 }
 
 1;
+
+=item qp
+
+Query Parser. The L<Search::Xapian::QueryParser> object used to parse the query.
 
 =back
 
