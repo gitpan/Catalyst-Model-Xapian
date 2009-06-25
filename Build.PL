@@ -11,6 +11,7 @@ my %arguments = (
         'Storable'       => '0',
         'Catalyst'       => '5.30',
         'Data::Page'     => '0',
+        'MRO::Compat'    => '0',
     },
     create_makefile_pl => 'passthrough',
     test_files         => [ glob('t/*.t') ],

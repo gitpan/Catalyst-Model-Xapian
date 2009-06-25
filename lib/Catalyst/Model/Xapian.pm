@@ -9,10 +9,10 @@ use Catalyst::Model::Xapian::Result;
 use Encode qw/from_to/;
 use Search::Xapian qw/:all/;
 use Storable;
-use NEXT;
+use MRO::Compat;
 use Time::HiRes qw/gettimeofday tv_interval/;
 
-our $VERSION='0.03';
+our $VERSION='0.04';
 
 __PACKAGE__->mk_accessors('db');
 __PACKAGE__->mk_accessors('qp');
