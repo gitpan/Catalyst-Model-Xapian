@@ -12,7 +12,7 @@ use Storable;
 use MRO::Compat;
 use Time::HiRes qw/gettimeofday tv_interval/;
 
-our $VERSION='0.05';
+our $VERSION='0.06';
 
 __PACKAGE__->mk_accessors('db');
 __PACKAGE__->mk_accessors('qp');

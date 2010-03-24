@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Catalyst-Model-Xapian
-version:            0.05
+version:            0.06
 abstract:           Catalyst model for Search::Xapian.
 author:
     - Jonathan Rockway <mramberg@cpan.org>

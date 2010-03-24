@@ -1,4 +1,3 @@
-Build.PL
 Changes
 lib/Catalyst/Helper/Model/Xapian.pm
 lib/Catalyst/Model/Xapian.pm

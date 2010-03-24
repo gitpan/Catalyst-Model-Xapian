@@ -1,6 +1,8 @@
 Revision history for Perl extension Catalyst::Model::Xapian.
 
-0.04  2010-03-24 12:54:00
+0.06  2010-03-24 12:54:00
+    - Fix manifest, changes
+0.05  2010-03-24 12:54:00
     - Switch to ExtUtils::MakeMaker
 
 0.04  2009-06-25 03:16:00
