@@ -1,28 +1,27 @@
----
-name: Catalyst-Model-Xapian
-version: 0.04
+--- #YAML:1.0
+name:               Catalyst-Model-Xapian
+version:            0.05
+abstract:           Catalyst model for Search::Xapian.
 author:
-  - 'Marcus Ramberg <mramberg@cpan.org>'
-abstract: Catalyst model for Search::Xapian.
-license: perl
-resources:
-  license: http://dev.perl.org/licenses/
+    - Jonathan Rockway <mramberg@cpan.org>
+license:            unknown
+distribution_type:  module
+configure_requires:
+    ExtUtils::MakeMaker:  0
+build_requires:
+    ExtUtils::MakeMaker:  0
 requires:
-  Catalyst: 5.30
-  Data::Page: 0
-  Encode: 0
-  MRO::Compat: 0
-  Search::Xapian: 0.9.2.4
-  Storable: 0
-provides:
-  Catalyst::Helper::Model::Xapian:
-    file: lib/Catalyst/Helper/Model/Xapian.pm
-  Catalyst::Model::Xapian:
-    file: lib/Catalyst/Model/Xapian.pm
-    version: 0.04
-  Catalyst::Model::Xapian::Result:
-    file: lib/Catalyst/Model/Xapian/Result.pm
-generated_by: Module::Build version 0.280801
+    Catalyst:        5.30
+    Data::Page:      0
+    Encode:          0
+    MRO::Compat:     0
+    Search::Xapian:  0.9.2.4
+    Storable:        0
+no_index:
+    directory:
+        - t
+        - inc
+generated_by:       ExtUtils::MakeMaker version 6.54
 meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.2.html
-  version: 1.2
+    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
+    version:  1.4

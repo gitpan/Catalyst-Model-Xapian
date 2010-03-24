@@ -9,7 +9,7 @@ SYNOPSIS
         );
         $c->stash->{searchresults}=$res;
         $c->stash->{iterator}=$it;
-
+ 
 DESCRIPTION
     This model class wraps Search::Xapian to provide a friendly, paged
     interface to Xapian (www.xapian.org) indexes. This class adds a little
